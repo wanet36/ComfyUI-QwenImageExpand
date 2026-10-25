@@ -1,0 +1,11 @@
+[project]
+name = "comfyui-qwen-image-expand"
+version = "1.0.0"
+description = "Image expand (outpainting prep) node with a visual editor for ComfyUI: drag the frame outward, the extended area is filled with rgb(128,128,128)"
+license = { text = "MIT" }
+dependencies = []
+requires-python = ">=3.9"
+
+[tool.comfy]
+DisplayName = "Qwen 图像扩展 (Image Expand)"
+requires-comfyui = ">=0.3.0"

@@ -1,0 +1,71 @@
+{
+  "id": "qwen-outpaint-single",
+  "revision": 0,
+  "last_node_id": 1,
+  "last_link_id": 0,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Qwen21Outpaint",
+      "pos": [
+        180,
+        120
+      ],
+      "size": [
+        420,
+        780
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0
+        },
+        {
+          "name": "canvas",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Qwen21Outpaint"
+      },
+      "widgets_values": [
+        "qwen_image_2.1_turbo_int8_convrot.safetensors",
+        "qwen3vl_8b_bf16.safetensors",
+        "qwen_image_2.1_vae_bf16.safetensors",
+        "Qwen2.1\\Qwen21-图像扩展qwen-image-2.1-outpaint-v2.safetensors",
+        1,
+        "Outpaint the image: replace the solid gray areas with a seamless continuation of the scene, keeping the existing picture unchanged.\n",
+        "artifacts, gpt-image, washed-out colors, low quality, low resolution, AI slop, deviantart, sloppy lines, rough sketch, blurry, indistinct, missing fingers, badly drawn hands, wrong number of fingers",
+        984328985342203,
+        "randomize",
+        4,
+        1,
+        "euler",
+        "simple",
+        0,
+        551,
+        17,
+        551,
+        17,
+        128,
+        "{\"version\":1,\"image\":\"qwen_image_expand/ComfyUI_00031.png\",\"width\":1000,\"height\":1456,\"scale\":0.658,\"fill\":128,\"align\":32,\"pads\":{\"left\":551,\"top\":17,\"right\":551,\"bottom\":17}}",
+        0.658,
+        true,
+        "QwenOutpaint"
+      ]
+    }
+  ],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
