@@ -1,0 +1,45 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: 后端逻辑（Pillow + numpy）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安装依赖
+        run: pip install --disable-pip-version-check pillow numpy
+      - name: 扩边核心 + 节点张量
+        run: python tests/test_expand.py
+
+  frontend:
+    name: 前端逻辑（jsdom）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 安装依赖
+        # 前端测试会顺带用 python 校验 expand.parse_state，所以这里也装 Pillow
+        run: |
+          npm install --no-save --no-package-lock jsdom@24
+          pip install --disable-pip-version-check pillow
+      - name: 编辑器交互（拖动扩边 / 缩放 / 写回 / 预览）
+        run: node tests/test_editor.js
+      - name: 参数面板（四组折叠 / 写回 / 视图切换）
+        run: node tests/test_editor_params.js

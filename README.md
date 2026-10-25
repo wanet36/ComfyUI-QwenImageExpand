@@ -1,5 +1,10 @@
 # ComfyUI-QwenImageExpand
 
+[![tests](https://github.com/wanet36/ComfyUI-QwenImageExpand/actions/workflows/tests.yml/badge.svg)](https://github.com/wanet36/ComfyUI-QwenImageExpand/actions/workflows/tests.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**中文**（本文件） · **English** → [README_EN.md](README_EN.md)
+
 给 **Qwen-Image 2.1 扩图（outpainting）** 用的两个节点，共用同一套可视化编辑器
 （导入图片 → 拖动矩形外扩 → 延伸区域填 `rgb(128,128,128)` = `#808080`）：
 
@@ -202,6 +207,7 @@ node   tests/cdp_pipeline.mjs # 一体节点真机：卡片形态、参数隐藏
 
 后两个需要 ComfyUI 在 `127.0.0.1:8188` 运行、插件已装进 `custom_nodes`，
 且 `input/qwen_image_expand/api_test.png` 已存在（`api_smoke.py` 会自动生成）。
+GitHub Actions（`.github/workflows/tests.yml`）跑前三个：后端 `test_expand.py` + 两个 jsdom 测试。
 
 ## 目录结构
 
@@ -216,6 +222,8 @@ ComfyUI-QwenImageExpand/
 ├─ docs/                  # README 截图
 ├─ tests/                 # 后端 + 前端 + 真机测试
 ├─ pyproject.toml         # ComfyUI Registry 元数据
+├─ README_EN.md           # 英文说明
+├─ .github/workflows/     # CI（后端 + jsdom）
 └─ LICENSE                # MIT
 ```
 

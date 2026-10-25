@@ -8,9 +8,26 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
-const { JSDOM } = require("C:/Users/wanet/AppData/Local/Temp/workbuddy-update-x64/plm_harness/node_modules/jsdom");
+// jsdom 来源：环境变量 → 本地 node_modules → 开发机缓存路径（CI 里用 `npm i jsdom`）
+function loadJsdom() {
+  const candidates = [
+    process.env.JSDOM_PATH,
+    "jsdom",
+    "C:/Users/wanet/AppData/Local/Temp/workbuddy-update-x64/plm_harness/node_modules/jsdom",
+  ].filter(Boolean);
+  for (const c of candidates) {
+    try {
+      return require(c);
+    } catch (err) {
+      /* 试下一个 */
+    }
+  }
+  throw new Error("找不到 jsdom：请先 `npm i jsdom`，或设置环境变量 JSDOM_PATH 指向它的目录");
+}
+const { JSDOM } = loadJsdom();
 
 const PKG_DIR = path.resolve(__dirname, "..");
+const PY = process.env.PYTHON || (process.platform === "win32" ? "python" : "python3");
 const SRC = path.join(PKG_DIR, "web", "js", "qwen_image_expand.js");
 
 let passed = 0;
@@ -328,7 +345,7 @@ const drag = (ed, from, dx, dy) => {
 
   /* 13. 后端可消费前端产物 */
   const py = execSync(
-    `python -c "import sys,json;sys.path.insert(0,'${PKG_DIR.replace(/\\/g, "/")}');import expand;st=expand.parse_state(sys.stdin.read());print(st['image'] and st['width'], st['pads']['right'], st['pads']['left'])"`,
+    `"${PY}" -c "import sys,json;sys.path.insert(0,'${PKG_DIR.replace(/\\/g, "/")}');import expand;st=expand.parse_state(sys.stdin.read());print(st['image'] and st['width'], st['pads']['right'], st['pads']['left'])"`,
     { input: JSON.stringify(saved), encoding: "utf8" }
   );
   ok(py.trim() === `400 ${saved.pads.right} ${saved.pads.left}`, "后端 parse_state 正确解析前端 JSON：" + py.trim());

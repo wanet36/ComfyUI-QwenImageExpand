@@ -8,7 +8,23 @@
  */
 const fs = require("fs");
 const path = require("path");
-const { JSDOM } = require("C:/Users/wanet/AppData/Local/Temp/workbuddy-update-x64/plm_harness/node_modules/jsdom");
+// jsdom 来源：环境变量 → 本地 node_modules → 开发机缓存路径（CI 里用 `npm i jsdom`）
+function loadJsdom() {
+  const candidates = [
+    process.env.JSDOM_PATH,
+    "jsdom",
+    "C:/Users/wanet/AppData/Local/Temp/workbuddy-update-x64/plm_harness/node_modules/jsdom",
+  ].filter(Boolean);
+  for (const c of candidates) {
+    try {
+      return require(c);
+    } catch (err) {
+      /* 试下一个 */
+    }
+  }
+  throw new Error("找不到 jsdom：请先 `npm i jsdom`，或设置环境变量 JSDOM_PATH 指向它的目录");
+}
+const { JSDOM } = loadJsdom();
 
 const SRC = path.resolve(__dirname, "..", "web", "js", "qwen_image_expand.js");
 
